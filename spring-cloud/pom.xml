@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.1-SNAPSHOT</version>
+		<version>3.2.3</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
@@ -24,19 +24,18 @@
 		<start-class>example.Application</start-class>
 
 		<!-- AZURE FUNCTION CONFIG -->
-		<azure.functions.maven.plugin.version>1.22.0</azure.functions.maven.plugin.version>
+		<azure.functions.maven.plugin.version>1.32.0</azure.functions.maven.plugin.version>
 		<functionAppName>spring-cloud-function-samples</functionAppName>
-		<functionAppRegion>westus</functionAppRegion>
-		<functionResourceGroup>sample-resource-group</functionResourceGroup>
-		<functionAppServicePlanName>sample-service-plan</functionAppServicePlanName>
-		<functionPricingTier>EP1</functionPricingTier>
+        <functionAppName>azure-functions-sample</functionAppName>
+        <functionAppRegion>westus2</functionAppRegion>
+        <functionResourceGroup>java-functions-group</functionResourceGroup>
 	</properties>
 	<dependencies>
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-function-adapter-azure</artifactId>
-			<version>4.0.0</version>
+			<version>4.1.0</version>
 		</dependency>
 
 		<dependency>
@@ -48,7 +47,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.9.2</version>
+			<version>5.10.2</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -72,23 +71,24 @@
 					<appName>${functionAppName}</appName>
 					<resourceGroup>${functionResourceGroup}</resourceGroup>
 					<region>${functionAppRegion}</region>
-					<appServicePlanName>${functionAppServicePlanName}</appServicePlanName>
-					<pricingTier>${functionPricingTier}</pricingTier>
-
 					<hostJson>${project.basedir}/src/main/resources/host.json</hostJson>
 					<localSettingsJson>${project.basedir}/src/main/resources/local.settings.json</localSettingsJson>
 
-					<runtime>
+					<!--<runtime>
 						<os>linux</os>
 						<javaVersion>17</javaVersion>
-					</runtime>
+					</runtime>-->
 
 					<appSettings>
 						<property>
 							<name>FUNCTIONS_EXTENSION_VERSION</name>
 							<value>~4</value>
 						</property>
-					</appSettings>
+                        <property>
+                            <name>FUNCTIONS_WORKER_RUNTIME</name>
+                            <value>java</value>
+                        </property>
+                    </appSettings>
 				</configuration>
 				<executions>
 					<execution>
@@ -103,13 +103,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<dependencies>
-					<dependency>
-						<groupId>org.springframework.boot.experimental</groupId>
-						<artifactId>spring-boot-thin-layout</artifactId>
-						<version>${spring-boot-thin-layout.version}</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
